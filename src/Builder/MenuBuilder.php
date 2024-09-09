@@ -7,27 +7,26 @@ namespace App\Builder;
 use App\Model\BadgeModel;
 use App\Model\MenuItemModel;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RouterInterface;
 use Tree\Builder\NodeBuilder;
 use Tree\Node\NodeInterface;
 
 class MenuBuilder extends NodeBuilder
 {
-    public function __construct(private readonly Request $request, private readonly RouterInterface $router, ?NodeInterface $node = null)
+    public function __construct( private readonly Request $request, ?NodeInterface $node = null)
     {
         parent::__construct($node);
     }
 
-    public function addMenuItem(string $identifier, string $label, string $routeName, ?string $icon, ?BadgeModel $badge = null): self
+    public function addMenuItem(string $identifier, string $label, string $route, ?string $icon, ?BadgeModel $badge = null): self
     {
-        $this->leaf(new MenuItemModel($this->request, $identifier, $label, $this->router->generate($routeName), false, $icon, $badge));
+        $this->leaf(new MenuItemModel($this->request, $identifier, $label, $route, false, $icon, $badge));
 
         return $this;
     }
 
-    public function addDropdownMenuItem(string $identifier, string $label, string $routeName, ?string $icon, ?BadgeModel $badge = null): self
+    public function addDropdownMenuItem(string $identifier, string $label, string $route, ?string $icon, ?BadgeModel $badge = null): self
     {
-        $this->tree(new MenuItemModel($this->request, $identifier, $label, $this->router->generate($routeName), false, $icon, $badge));
+        $this->tree(new MenuItemModel($this->request, $identifier, $label, $route, false, $icon, $badge));
 
         return $this;
     }
