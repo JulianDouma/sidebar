@@ -6,7 +6,7 @@ namespace App\Model;
 
 use Tree\Node\NodeInterface;
 
-interface MenuItemModelInterface extends NodeInterface
+interface IMenuItemModel extends NodeInterface
 {
     public function getLabel(): string;
 

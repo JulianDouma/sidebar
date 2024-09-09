@@ -13,6 +13,7 @@
         "runtime/frankenphp-symfony": "^0.2.0",
         "symfony/asset": "7.1.*",
         "symfony/asset-mapper": "7.1.*",
+        "symfony/cache": "7.1.*",
         "symfony/console": "7.1.*",
         "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2",
@@ -27,7 +28,8 @@
         "symfony/ux-twig-component": "^2.19",
         "symfony/yaml": "7.1.*",
         "symfonycasts/sass-bundle": "^0.7.0",
-        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/cache-extra": "^3.13",
+        "twig/extra-bundle": "^3.13",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {

@@ -6,7 +6,7 @@ namespace App\Model;
 
 use App\Enum\Color;
 
-interface BadgeModelInterface
+interface IBadgeModel
 {
     const string SIZE_SMALL = 'sm';
     const string SIZE_LARGE = 'lg';

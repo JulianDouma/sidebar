@@ -5,17 +5,24 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Override;
-use Symfony\Component\HttpFoundation\Request;
 use Tree\Node\NodeTrait;
 
-class MenuItemModel implements MenuItemModelInterface
+class MenuItemModel implements IMenuItemModel
 {
     use NodeTrait;
 
-    public function __construct(private readonly Request $request, private readonly string $identifier, private readonly string $label, private readonly string $url, private bool $active = false, private readonly ?string $icon = null, private readonly ?BadgeModel $badge = null)
+    public function __construct(
+        private readonly string      $identifier,
+        private readonly string      $label,
+        private readonly string      $url,
+        private readonly string      $currentUri,
+        private bool                 $active = false,
+        private readonly ?string     $icon = null,
+        private readonly ?BadgeModel $badge = null
+    )
     {
         $this->setValue($this->identifier);
-        $this->active = $this->request->getRequestUri() === $this->url;
+        $this->active = $this->currentUri === $this->url;
     }
 
     #[Override] public function getLabel(): string

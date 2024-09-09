@@ -7,7 +7,7 @@ namespace App\Model;
 use App\Enum\Color;
 use InvalidArgumentException;
 
-class BadgeModel implements BadgeModelInterface
+class BadgeModel implements IBadgeModel
 {
     public final const array ALLOWED_SIZES = [
         self::SIZE_SMALL => self::SIZE_SMALL,
