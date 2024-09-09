@@ -1,0 +1,5 @@
+{% props label = 'Badge', color = 'primary', size = 'sm' %}
+
+<span {{ attributes.defaults({class: 'text-uppercase ms-auto ' ~ 'badge bg-'~color~' badge-'~size}) }}>
+    {{ label }}
+</span>
