@@ -24,55 +24,64 @@
         </div>
     </aside>
 
+    {% macro renderIcon(node) %}
+        {% if node.value.hasIcon %}
+            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                {{ ux_icon(node.value.icon, {class: 'icon'}) }}
+            </span>
+        {% endif %}
+    {% endmacro %}
+
+    {% macro renderBadge(node) %}
+        {% if node.value.hasBadge %}
+            {{ component('Badge', {label: node.value.badge.label, color: node.value.badge.color}) }}
+        {% endif %}
+    {% endmacro %}
+
+    {% macro renderLink(node) %}
+        <a href="{{ node.value.url }}" class="nav-link">
+            {{ _self.renderIcon(node) }}
+            <span class="nav-link-title">
+                {{ node.value.label }}
+            </span>
+            {{ _self.renderBadge(node) }}
+        </a>
+    {% endmacro %}
+
+    {% macro renderDropdown(node) %}
+        <a href="#navbar-{{ node.value.value }}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+           data-bs-auto-close="false" role="button" aria-expanded="false">
+            {{ _self.renderIcon(node) }}
+            <span class="nav-link-title">
+                {{ node.value.label }}
+            </span>
+        </a>
+        <div class="dropdown-menu">
+            {% for child in node.children %}
+                {% if child.children != [] %}
+                    {{ _self.addMenuItem(child) }}
+                {% else %}
+                    <a href="{{ child.value.url }}" class="dropdown-item">
+                        {{ _self.renderIcon(child) }}
+                        <span class="nav-link-title">
+                            {{ child.value.label }}
+                        </span>
+                        {{ _self.renderBadge(child) }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endmacro %}
+
     {% macro addMenuItem(node) %}
         {% set hasChildren = node.children != [] %}
         {% if hasChildren %}
             <li class="nav-item dropdown {{ node.value.isActive ? 'active' : '' }}">
-                <a href="#navbar-{{ node.value.value }}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                   data-bs-auto-close="false" role="button" aria-expanded="false">
-                    {% if node.value.hasIcon %}
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        {{ ux_icon(node.value.icon, {class: 'icon'}) }}
-                    </span>
-                    {% endif %}
-                    <span class="nav-link-title">
-                    {{ node.value.label }}
-                </span>
-                </a>
-                <div class="dropdown-menu">
-                    {% for child in node.children %}
-                        {% if child.children != [] %}
-                            {{ _self.addMenuItem(child) }}
-                        {% else %}
-                            <a href="{{ child.value.url }}" class="dropdown-item">
-                                {% if child.value.hasIcon %}
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                    {{ ux_icon(child.value.icon, {class: 'icon'}) }}
-                                </span>
-                                {% endif %}
-                                <span class="nav-link-title">
-                                {{ child.value.label }}
-                            </span>
-                                {% if child.value.hasBadge %}
-                                    {{ component('Badge', {label: child.value.badge.label, color: child.value.badge.color}) }}
-                                {% endif %}
-                            </a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {{ _self.renderDropdown(node) }}
             </li>
         {% else %}
             <li class="nav-item {{ node.value.isActive ? 'active' : '' }}">
-                <a href="{{ node.value.url }}" class="nav-link">
-                    {% if node.value.hasIcon %}
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        {{ ux_icon(node.value.icon, {class: 'icon'}) }}
-                    </span>
-                    {% endif %}
-                    <span class="nav-link-title">
-                    {{ node.value.label }}
-                </span>
-                </a>
+                {{ _self.renderLink(node) }}
             </li>
         {% endif %}
     {% endmacro %}
